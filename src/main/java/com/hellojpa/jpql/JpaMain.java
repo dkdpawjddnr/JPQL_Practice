@@ -23,17 +23,12 @@ public class JpaMain {
             member.setAge(10);
             em.persist(member);
 
-            // 반환 타입이 명확할 때 : TypeQuery
-            TypedQuery<Member> query1 = em.createQuery("select m from Member m", Member.class);
-            // 이렇게 하면 반환 타입이 두 개라서 명확하지 않음 -> Query타입으로 반환 받아야 함.
-            Query query2 = em.createQuery("select m.username, m.age from Member m");
-            
-            // 결과가 하나 이상일 때, 리스트 반환 결과가 없으면 빈 리스트 반환
-            List<Member> resultList = query1.getResultList();
-            // 결과가 정확히 하나, 단일 객체 반환 결과가 없거나 둘 이상이면 Exception 발생
-            Member singleResult = query1.getSingleResult();
-            
-            System.out.println(singleResult);
+            Member result = em.createQuery("select m from Member m where m.username = :username", Member.class)
+                            .setParameter("username", "member1")
+                            .getSingleResult();
+
+            System.out.println("result = " + result.getUsername());
+
 
             tx.commit();
         } catch (Exception e){
