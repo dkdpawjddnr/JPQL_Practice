@@ -26,7 +26,7 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            em.createQuery("select o.address from Order o", Address.class)
+            List<MemberDTO> result = em.createQuery("select new com.hellojpa.jpql.MemberDTO(m.username, m.age) from Member m", MemberDTO.class)
                     .getResultList();
 
             tx.commit();
