@@ -24,17 +24,21 @@ public class JpaMain {
             em.persist(team);
 
             Member member = new Member();
-            member.setUsername("member1");
+            member.setUsername("teamA");
             member.setAge(10);
 
             member.setTeam(team);
 
+            em.persist(member);
+
             em.flush();
             em.clear();
 
-            String query = "select m from Member m inner join m.team t";
+            String query = "select m from Member m, Team t where m.username = t.name";
             List<Member> result = em.createQuery(query, Member.class)
                     .getResultList();
+
+            System.out.println("result = " + result.size());
             tx.commit();
         } catch (Exception e){
             tx.rollback();
