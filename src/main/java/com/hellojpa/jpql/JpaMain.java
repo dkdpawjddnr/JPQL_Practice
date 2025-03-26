@@ -1,10 +1,6 @@
 package com.hellojpa.jpql;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
-
 import java.util.List;
 
 public class JpaMain {
@@ -30,11 +26,11 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select substring(m.username, 2, 3) from Member m";
-            List<String> result = em.createQuery(query, String.class)
+            String query = "select locate('de', 'abcdefg') from Member m";
+            List<Integer> result = em.createQuery(query, Integer.class)
                             .getResultList();
 
-            for(String s : result){
+            for(Integer s : result){
                 System.out.println("s = " + s);
             }
             tx.commit();
