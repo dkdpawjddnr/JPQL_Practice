@@ -26,12 +26,12 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select m.username From Member m";
+            String query = "select m.team From Member m";
 
-            List<String> result = em.createQuery(query, String.class)
+            List<Team> result = em.createQuery(query, Team.class)
                             .getResultList();
 
-            for(String s : result){
+            for(Team s : result){
                 System.out.println("s = " + s);
             }
             tx.commit();
