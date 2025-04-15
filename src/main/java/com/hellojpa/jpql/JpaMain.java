@@ -28,10 +28,10 @@ public class JpaMain {
 
             String query = "select m.username From Member m";
 
-            List<Integer> result = em.createQuery(query, Integer.class)
+            List<String> result = em.createQuery(query, String.class)
                             .getResultList();
 
-            for(Integer s : result){
+            for(String s : result){
                 System.out.println("s = " + s);
             }
             tx.commit();
