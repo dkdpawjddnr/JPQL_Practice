@@ -20,7 +20,7 @@ public class JpaMain {
             em.persist(teamA);
 
             Team teamB = new Team();
-            teamA.setName("팀B");
+            teamB.setName("팀B");
             em.persist(teamB);
 
             Member member1 = new Member();
@@ -30,30 +30,25 @@ public class JpaMain {
 
             Member member2 = new Member();
             member2.setUsername("회원2");
-            member2.setTeam(teamB);
+            member2.setTeam(teamA);
             em.persist(member2);
 
             Member member3 = new Member();
             member3.setUsername("회원3");
             member3.setTeam(teamB);
-            em.persist(member2);
+            em.persist(member3);
 
             em.flush();
             em.clear();
 
-            String query = "select m From Member m";
+            String query = "select m From Member m join fetch m.team";
 
             List<Member> result = em.createQuery(query, Member.class)
                             .getResultList();
 
+            //페치 조인으로 회원과 팀을 함께 조회해서 지연 로딩 발생 안함
             for(Member m : result){
                 System.out.println("member = " + m.getUsername() + ", " + m.getTeam().getName());
-
-                //회원1, 팀A(SQL)
-                //회원2, 팀A(영속성 컨텍스트 1차캐시)
-                //회원3, 팀B(SQL)
-                //쿼리가 많이 나가는 것이 N+1 문제!
-                // -> 해결 방법? fetch join
             }
 
             tx.commit();
